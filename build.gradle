@@ -1,0 +1,48 @@
+plugins {
+    id 'war'
+}
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+	
+	// Java EE 8
+	compileOnly  group: 'javax', name: 'javaee-api', version: '8.0'
+	// Commons... (aus Gründen der Build-/Deploy-Performance im lib-Verzeichnis vom Application-Server)
+	compileOnly group: 'com.google.guava', name: 'guava', version: '23.0'
+	
+	// JUnit5-Testing
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.2'
+    // Erweiterung: siehe http://hamcrest.org/JavaHamcrest/
+	// testCompile group: 'org.hamcrest', name: 'hamcrest-junit', version: '2.0.0.0'
+	// Erweiterung: siehe http://joel-costigliola.github.io/assertj/assertj-core-quick-start.html
+	testCompile group: 'org.assertj', name: 'assertj-core', version: '3.11.1'
+	
+	// Commons
+	testCompile group: 'com.google.guava', name: 'guava', version: '23.0'
+    
+    // JPA Integrationtest
+	testCompile (group: 'org.eclipse.persistence', name: 'eclipselink', version: '2.7.3') {
+		exclude	group: 'org.eclipse.persistence', module: 'javax.persistence'
+	}
+	testCompile group: 'javax.persistence', name: 'javax.persistence-api', version: '2.2'
+    testRuntime group: 'mysql', name: 'mysql-connector-java', version: '8.0.13'
+    
+    // JSON
+	testCompile group: 'javax.json.bind', name: 'javax.json.bind-api', version: '1.0'
+    testCompile group: 'org.eclipse', name: 'yasson', version: '1.0.2'
+    testCompile group: 'org.glassfish', name: 'javax.json', version: '1.1.4'
+    
+    
+}
+
+test {
+	useJUnitPlatform()
+}
