@@ -12,14 +12,13 @@ import javax.persistence.Persistence;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import de.esempe.rext.usermgmt.domain.User;
 
 @DisplayName("Integrationstests UserRepository/MySQL-Datenbank")
-@Disabled("Docker Umgebung fehlt noch")
+//@Disabled("Docker Umgebung fehlt noch")
 class UserRepositoryTest
 {
 

@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+ dbserver:
+  image: mysql:8.0.12
+  container_name: user_dbserver
+  volumes:
+  - /home/hdp/Docker/Container/mysql8/data1:/var/lib/mysql
+  ports:
+  - "3306:3306"
+  environment:
+   TZ: Europe/Berlin
+   MYSQL_ROOT_PASSWORD: admin 
+   MYSQL_DATABASE: testdb
+  
+ appserver:
+  build:
+   context: ./
+   args:
+    DBSERVER: user_dbserver
+  container_name: user_appserver
+  volumes:
+  - ./autodeploy:/opt/payara5/glassfish/domains/domain1/autodeploy/
+  ports:
+  - "8080:8080"
+  - "4848:4848"
+  environment:
+    DBSERVER: user_dbserver
+
+    

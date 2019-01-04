@@ -18,9 +18,8 @@ public class PingResource
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response ping()
 	{
-
 		final LocalDateTime now = LocalDateTime.now();
-		final String result = now.toString();
+		final String result = "ping from: " + now.toString();
 
 		return Response.ok(result).build();
 	}
