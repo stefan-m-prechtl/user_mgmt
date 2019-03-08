@@ -55,17 +55,17 @@ class UserRepositoryTest
 	void testCRUD()
 	{
 		// Create
-		final User user = create("u4711");
+		final User user = this.create("u4711");
 
 		// Read
-		read(user);
+		this.read(user);
 
 		// Update
 		user.setLogin(user.getLogin().toUpperCase());
-		update(user);
+		this.update(user);
 
 		// Delete
-		delete(user);
+		this.delete(user);
 
 	}
 
@@ -86,7 +86,7 @@ class UserRepositoryTest
 		assertThat(result.getId()).isGreaterThan(0);
 		assertThat(result.getLogin()).isEqualTo("u4711");
 
-		// für die Weiterverwendung in den Folgetests
+		// für die Weiterverwendung in den nachfolgenden Tests
 		return result;
 	}
 
