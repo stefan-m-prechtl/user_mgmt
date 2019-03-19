@@ -1,4 +1,4 @@
-package de.esempe.rext.usermgmt.repository;
+package de.esempe.rext.usermgmt.domain;
 
 import java.nio.ByteBuffer;
 import java.util.UUID;

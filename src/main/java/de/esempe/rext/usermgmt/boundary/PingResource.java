@@ -1,4 +1,4 @@
-package de.esempe.rext.usermgmt.api;
+package de.esempe.rext.usermgmt.boundary;
 
 import java.time.LocalDateTime;
 

@@ -16,6 +16,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 
 @Entity
 @Table(name = "t_user", schema = "testdb")
@@ -36,7 +37,7 @@ public class User implements Serializable
 	@JsonbTransient
 	private long id;
 
-	@Convert(converter = de.esempe.rext.usermgmt.repository.UuidConverter.class)
+	@Convert(converter = de.esempe.rext.usermgmt.domain.UuidConverter.class)
 	private UUID objid;
 
 	private String login;
@@ -52,7 +53,7 @@ public class User implements Serializable
 		this(login, UUID.randomUUID());
 	}
 
-	// Für Konvertierung von Json-String zu Java-Objekct
+	// Für Konvertierung von Json-String zu Java-Objekt
 	@JsonbCreator
 	public User(@JsonbProperty("login") final String login, @JsonbProperty("objid") final UUID objid)
 	{
@@ -91,13 +92,36 @@ public class User implements Serializable
 	{
 		//@formatter:off
 		final String result = MoreObjects.toStringHelper(this)
-							.add("id",this.id)
-							.add("obiId",this.objid)
-							.add("login",this.login)
-							.toString();
-		
+				.add("id",this.id)
+				.add("obiId",this.objid)
+				.add("login",this.login)
+				.toString();
+
 		return result;
 		//@formatter:on
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+
+		if (obj == null)
+		{
+			return false;
+		}
+		if (this.getClass() != obj.getClass())
+		{
+			return false;
+		}
+		final User other = (User) obj;
+		return Objects.equal(this.id, other.id)
+				&& Objects.equal(this.objid, other.objid)
+				&& Objects.equal(this.login, other.login);
+	}
+
+	@Override
+	public int hashCode() {
+
+		return Objects.hashCode(this.id, this.objid, this.login);
 	}
 
 

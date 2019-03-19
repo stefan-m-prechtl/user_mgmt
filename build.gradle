@@ -27,6 +27,9 @@ dependencies {
 	// Erweiterung: siehe http://joel-costigliola.github.io/assertj/assertj-core-quick-start.html
 	testCompile group: 'org.assertj', name: 'assertj-core', version: '3.11.1'
 	
+	// Mockito für JUnit 5
+	testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: '2.25.1'
+	
 	// Commons
 	testCompile group: 'com.google.guava', name: 'guava', version: '23.0'
     
