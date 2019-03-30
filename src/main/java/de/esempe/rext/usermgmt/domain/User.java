@@ -20,7 +20,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 @Entity
-@Table(name = "t_user", schema = "testdb")
+@Table(name = "t_user", schema = "userdb")
 //@formatter:off
 @NamedQueries({
 	@NamedQuery(name = "all", query = "SELECT u FROM User u"),

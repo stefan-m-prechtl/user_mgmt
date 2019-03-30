@@ -38,7 +38,6 @@ public class UserResource
 	@PersistenceContext(name = "userdb")
 	EntityManager em;
 
-
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -130,8 +129,7 @@ public class UserResource
 		{
 			// --> Update
 			this.em.merge(user);
-		}
-		else
+		} else
 		{
 			// --> Insert
 			this.em.persist(user);
@@ -180,19 +178,14 @@ public class UserResource
 		{
 
 		}
-		//		// 2-n Ergebnisse
-		//		catch (final NonUniqueResultException e)
-		//		{
+		// // 2-n Ergebnisse
+		// catch (final NonUniqueResultException e)
+		// {
 		//
-		//		}
+		// }
 
 		return result;
 
 	}
-
-
-
-
-
 
 }
