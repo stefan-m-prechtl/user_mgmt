@@ -1,6 +1,7 @@
 .gradle
 /build/
 /docker/autodeploy/
+/docker/mysql8/
 
 .classpath
 .project

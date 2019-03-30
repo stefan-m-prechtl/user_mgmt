@@ -70,7 +70,13 @@ task (downDC, type: Exec, group: 'docker') {
     commandLine 'docker-compose','down', '-t', '0'
 }
 
+task (deleteDbFiles, type: Delete, group: 'docker') {
+	delete './docker/mysql8/data1'
+	mkdir './docker/mysql8/data1'
+}
+
 task (restartDC, type: Exec, group: 'docker') {
+	dependsOn ':deleteDbFiles'	
     workingDir currentDir
     commandLine 'docker-compose','restart', '-t','0'
 }

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 import javax.json.bind.annotation.JsonbCreator;
+import javax.json.bind.annotation.JsonbNillable;
 import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Convert;
@@ -28,6 +29,7 @@ import com.google.common.base.Objects;
 })
 //@formatter:on
 
+@JsonbNillable()
 public class User implements Serializable
 {
 	private static final long serialVersionUID = 1L;
@@ -41,12 +43,13 @@ public class User implements Serializable
 	private UUID objid;
 
 	private String login;
+	private String firstname;
+	private String lastname;
 
 	User()
 	{
 		// wegen JPA
 	}
-
 
 	public User(final String login)
 	{
@@ -61,7 +64,6 @@ public class User implements Serializable
 		this.objid = objid;
 		this.login = login;
 	}
-
 
 	// Getter/Setter
 	public String getLogin()
@@ -84,9 +86,27 @@ public class User implements Serializable
 		return this.objid;
 	}
 
+	public String getFirstname()
+	{
+		return this.firstname;
+	}
+
+	public void setFirstname(String firstname)
+	{
+		this.firstname = firstname;
+	}
+
+	public String getLastname()
+	{
+		return this.lastname;
+	}
+
+	public void setLastname(String lastname)
+	{
+		this.lastname = lastname;
+	}
 
 	// Standardmethoden
-
 	@Override
 	public String toString()
 	{
@@ -102,7 +122,8 @@ public class User implements Serializable
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 
 		if (obj == null)
 		{
@@ -113,19 +134,14 @@ public class User implements Serializable
 			return false;
 		}
 		final User other = (User) obj;
-		return Objects.equal(this.id, other.id)
-				&& Objects.equal(this.objid, other.objid)
-				&& Objects.equal(this.login, other.login);
+		return Objects.equal(this.id, other.id) && Objects.equal(this.objid, other.objid) && Objects.equal(this.login, other.login);
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 
 		return Objects.hashCode(this.id, this.objid, this.login);
 	}
-
-
-
-
 
 }
