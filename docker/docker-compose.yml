@@ -6,12 +6,15 @@ services:
   container_name: user_dbserver
   volumes:
   - ./mysql8/data1:/var/lib/mysql
+  - ./sqlinit/initdatabase.sql:/docker-entrypoint-initdb.d/initdatabase.sql
   ports:
   - "3306:3306"
+  env_file:
+    - common_environment.env
   environment:
    TZ: Europe/Berlin
    MYSQL_ROOT_PASSWORD: admin 
-   MYSQL_DATABASE: userdb
+   MYSQL_DATABASE: ${databasename}
   
  appserver:
   build:
@@ -25,7 +28,9 @@ services:
   ports:
   - "8080:8080"
   - "4848:4848"
+  env_file:
+    - common_environment.env
   environment:
     DBSERVER: user_dbserver
-    DATABASE: userdb
+    DATABASE: ${databasename}
     DBPORT: 3306
