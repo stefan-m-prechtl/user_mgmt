@@ -115,6 +115,12 @@ public class UserResource
 
 	}
 
+	/****************************************************************************************
+	 *
+	 * Methoden für Persistierung
+	 *
+	 *****************************************************************************************/
+
 	List<User> loadAll()
 	{
 		return this.em.createNamedQuery("all", User.class).getResultList();
@@ -137,7 +143,7 @@ public class UserResource
 		this.em.flush();
 	}
 
-	public void delete(final UUID objid)
+	void delete(final UUID objid)
 	{
 		final Optional<User> searchResult = this.findByObjId(objid);
 		if (searchResult.isPresent())
