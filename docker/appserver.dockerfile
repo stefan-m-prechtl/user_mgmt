@@ -8,4 +8,4 @@ ENV DBSERVER user_dbserver
 COPY mysql-connector-java-8.0.12.jar /opt/payara5/glassfish/domains/domain1/lib
  
 # ASADMIN Commands to create JDBC-Resource
-COPY post-boot-commands.asadmin /opt/payara5/
+COPY ./post-boot-commands.asadmin /opt/payara5/

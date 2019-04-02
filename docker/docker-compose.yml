@@ -5,17 +5,21 @@ services:
   image: mysql:8.0.12
   container_name: user_dbserver
   volumes:
-  - /home/hdp/Docker/Container/mysql8/data1:/var/lib/mysql
+  - ./mysql8/data1:/var/lib/mysql
+  - ./sqlinit/initdatabase.sql:/docker-entrypoint-initdb.d/initdatabase.sql
   ports:
   - "3306:3306"
+  env_file:
+    - common_environment.env
   environment:
    TZ: Europe/Berlin
    MYSQL_ROOT_PASSWORD: admin 
-   MYSQL_DATABASE: testdb
+   MYSQL_DATABASE: ${databasename}
   
  appserver:
   build:
    context: ./
+   dockerfile: appserver.dockerfile
    args:
     DBSERVER: user_dbserver
   container_name: user_appserver
@@ -24,7 +28,9 @@ services:
   ports:
   - "8080:8080"
   - "4848:4848"
+  env_file:
+    - common_environment.env
   environment:
     DBSERVER: user_dbserver
-
-    
+    DATABASE: ${databasename}
+    DBPORT: 3306

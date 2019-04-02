@@ -38,7 +38,6 @@ public class UserResource
 	@PersistenceContext(name = "userdb")
 	EntityManager em;
 
-
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -116,6 +115,12 @@ public class UserResource
 
 	}
 
+	/****************************************************************************************
+	 *
+	 * Methoden für Persistierung
+	 *
+	 *****************************************************************************************/
+
 	List<User> loadAll()
 	{
 		return this.em.createNamedQuery("all", User.class).getResultList();
@@ -130,8 +135,7 @@ public class UserResource
 		{
 			// --> Update
 			this.em.merge(user);
-		}
-		else
+		} else
 		{
 			// --> Insert
 			this.em.persist(user);
@@ -139,7 +143,7 @@ public class UserResource
 		this.em.flush();
 	}
 
-	public void delete(final UUID objid)
+	void delete(final UUID objid)
 	{
 		final Optional<User> searchResult = this.findByObjId(objid);
 		if (searchResult.isPresent())
@@ -180,19 +184,14 @@ public class UserResource
 		{
 
 		}
-		//		// 2-n Ergebnisse
-		//		catch (final NonUniqueResultException e)
-		//		{
+		// // 2-n Ergebnisse
+		// catch (final NonUniqueResultException e)
+		// {
 		//
-		//		}
+		// }
 
 		return result;
 
 	}
-
-
-
-
-
 
 }

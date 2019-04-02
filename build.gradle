@@ -70,6 +70,7 @@ task (downDC, type: Exec, group: 'docker') {
     commandLine 'docker-compose','down', '-t', '0'
 }
 
+
 task (restartDC, type: Exec, group: 'docker') {
     workingDir currentDir
     commandLine 'docker-compose','restart', '-t','0'
