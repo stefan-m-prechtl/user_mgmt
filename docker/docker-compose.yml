@@ -15,6 +15,7 @@ services:
    TZ: Europe/Berlin
    MYSQL_ROOT_PASSWORD: admin 
    MYSQL_DATABASE: ${databasename}
+  network_mode: "mynet"
   
  appserver:
   build:
@@ -34,3 +35,4 @@ services:
     DBSERVER: user_dbserver
     DATABASE: ${databasename}
     DBPORT: 3306
+  network_mode: "mynet"
