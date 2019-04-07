@@ -6,10 +6,15 @@ import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
+@Tag("unit-test")
 @DisplayName("Tests für Json-Konvertierung User")
+@TestMethodOrder(OrderAnnotation.class)
 public class UserJsonTest
 {
 	private User generateUser()

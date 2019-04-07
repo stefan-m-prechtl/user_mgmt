@@ -10,77 +10,73 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import de.esempe.rext.usermgmt.domain.User;
 
+@Tag("integration-test")
 @DisplayName("Integrationstests UserResource/MySQL-Datenbank")
-//@Disabled("Docker Umgebung fehlt noch")
+@TestMethodOrder(OrderAnnotation.class)
 class UserPersistenceTest
 {
 
-	private EntityManager em;
-	private EntityTransaction tx;
-	private final String jpaContext = "dbtest";
+	private static EntityManager em;
+	private static EntityTransaction tx;
+	private static final String jpaContext = "dbtest";
 
 	private UserResource objUnderTest;
+	private static User user;
 
-	@BeforeEach
-	void setUp() throws Exception
+	@BeforeAll
+	static void setUp() throws Exception
 	{
 		// JPA-Umgebung initialisieren
-		final EntityManagerFactory factory = Persistence.createEntityManagerFactory(this.jpaContext);
-		this.em = factory.createEntityManager();
-		this.tx = this.em.getTransaction();
+		final EntityManagerFactory factory = Persistence.createEntityManagerFactory(jpaContext);
+		em = factory.createEntityManager();
+		tx = em.getTransaction();
 
 		// Alle Daten in DB löschen
-		PersistenceHelper.deleteTableData(this.jpaContext);
-
-		// Testobjekt erzeugen
-		this.objUnderTest = new UserResource();
-		this.objUnderTest.em = this.em;
+		PersistenceHelper.deleteTableData(jpaContext);
 
 	}
 
-	@AfterEach
-	void tearDown() throws Exception
+	@BeforeEach
+	void setUpEach()
 	{
-		this.em.clear();
-		this.em.close();
+		// Testobjekt erzeugen
+		this.objUnderTest = new UserResource();
+		this.objUnderTest.em = em;
+	}
+
+	@AfterAll
+	static void tearDown() throws Exception
+	{
+		em.clear();
+		em.close();
 	}
 
 	@Test
-	void testCRUD()
-	{
-		// Create
-		final User user = this.create("u4711");
-
-		// Read
-		this.read(user);
-
-		// Update
-		user.setLogin(user.getLogin().toUpperCase());
-		this.update(user);
-
-		// Delete
-		this.delete(user);
-
-	}
-
-	private User create(final String login)
+	@Order(1)
+	@DisplayName("Create")
+	void create()
 	{
 		// prepare
-		final User result = new User(login);
+		final User result = new User("u4711");
 		result.setFirstname("Eva");
 		result.setLastname("Mustermann");
 
 		// act
-		this.tx.begin();
+		UserPersistenceTest.tx.begin();
 		this.objUnderTest.save(result);
-		this.tx.commit();
+		UserPersistenceTest.tx.commit();
 
 		// assert
 		assertThat(result).isNotNull();
@@ -88,49 +84,60 @@ class UserPersistenceTest
 		assertThat(result.getLogin()).isEqualTo("u4711");
 
 		// für die Weiterverwendung in den nachfolgenden Tests
-		return result;
+		UserPersistenceTest.user = result;
 	}
 
-	private void read(final User example)
+	@Test
+	@Order(2)
+	@DisplayName("Read")
+	void read()
 	{
 		// act
-		final Optional<User> searchResult = this.objUnderTest.findByObjId(example.getObjid());
+		final Optional<User> searchResult = this.objUnderTest.findByObjId(UserPersistenceTest.user.getObjid());
 
 		// assert
 		assertThat(searchResult).isNotNull();
 		assertThat(searchResult.get()).isNotNull();
-		assertThat(searchResult.get().getLogin()).isEqualTo(example.getLogin());
+		assertThat(searchResult.get().getLogin()).isEqualTo(UserPersistenceTest.user.getLogin());
 
 	}
 
-	private void update(final User user)
+	@Test
+	@Order(3)
+	@DisplayName("Update")
+	void update()
 	{
 		// prepare
-		final long id = user.getId();
-		final UUID objid = user.getObjid();
-		final String login = user.getLogin();
+		UserPersistenceTest.user.setLogin(UserPersistenceTest.user.getLogin().toUpperCase());
+
+		final long id = UserPersistenceTest.user.getId();
+		final UUID objid = UserPersistenceTest.user.getObjid();
+		final String login = UserPersistenceTest.user.getLogin();
 
 		// act
-		this.tx.begin();
-		this.objUnderTest.save(user);
-		this.tx.commit();
+		UserPersistenceTest.tx.begin();
+		this.objUnderTest.save(UserPersistenceTest.user);
+		UserPersistenceTest.tx.commit();
 
 		// assert
-		assertThat(user).isNotNull();
-		assertThat(user.getId()).isEqualTo(id);
-		assertThat(user.getObjid()).isEqualTo(objid);
-		assertThat(user.getLogin()).isEqualTo(login);
+		assertThat(UserPersistenceTest.user).isNotNull();
+		assertThat(UserPersistenceTest.user.getId()).isEqualTo(id);
+		assertThat(UserPersistenceTest.user.getObjid()).isEqualTo(objid);
+		assertThat(UserPersistenceTest.user.getLogin()).isEqualTo(login);
 	}
 
-	private void delete(final User user)
+	@Test
+	@Order(4)
+	@DisplayName("Delete")
+	void delete()
 	{
 		// prepare
-		final UUID objid = user.getObjid();
+		final UUID objid = UserPersistenceTest.user.getObjid();
 
 		// act
-		this.tx.begin();
-		this.objUnderTest.delete(user);
-		this.tx.commit();
+		UserPersistenceTest.tx.begin();
+		this.objUnderTest.delete(UserPersistenceTest.user);
+		UserPersistenceTest.tx.commit();
 
 		final Optional<User> searchResult = this.objUnderTest.findByObjId(objid);
 

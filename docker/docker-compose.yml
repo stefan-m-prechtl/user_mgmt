@@ -6,16 +6,15 @@ services:
   container_name: user_dbserver
   volumes:
   - ./mysql8/data1:/var/lib/mysql
-  - ./sqlinit/initdatabase.sql:/docker-entrypoint-initdb.d/initdatabase.sql
+  - ./sqlinit:/docker-entrypoint-initdb.d/
   ports:
   - "3306:3306"
   env_file:
-    - common_environment.env
+    - ./common_environment.env
   environment:
    TZ: Europe/Berlin
    MYSQL_ROOT_PASSWORD: admin 
-   MYSQL_DATABASE: ${databasename}
-  network_mode: "mynet"
+  # network_mode: "mynet"
   
  appserver:
   build:
@@ -30,9 +29,9 @@ services:
   - "8080:8080"
   - "4848:4848"
   env_file:
-    - common_environment.env
-  environment:
-    DBSERVER: user_dbserver
-    DATABASE: ${databasename}
-    DBPORT: 3306
-  network_mode: "mynet"
+    - ./common_environment.env
+  #environment:
+#    DBSERVER: user_dbserver
+    #DATABASE: userdb
+    #DBPORT: 3306
+  # network_mode: "mynet"
