@@ -9,28 +9,21 @@ services:
   - ./sqlinit:/docker-entrypoint-initdb.d/
   ports:
   - "3306:3306"
-  env_file:
-    - ./common_environment.env
   environment:
    TZ: Europe/Berlin
    MYSQL_ROOT_PASSWORD: admin 
+   MYSQL_DATABASE: userdb
   # network_mode: "mynet"
   
  appserver:
   build:
    context: ./
    dockerfile: appserver.dockerfile
-   args:
-    DBSERVER: user_dbserver
   container_name: user_appserver
   volumes:
-  - ./autodeploy:/opt/payara5/glassfish/domains/domain1/autodeploy/                
+  - ./autodeploy:/opt/payara/appserver/glassfish/domains/production/autodeploy/
   ports:
   - "8080:8080"
   - "4848:4848"
   - "9009:9009"
-  env_file:
-    - ./common_environment.env
-  #environment:
-    #JVM_ARGS: -Xdebug -Xrunjdwp:transport=dt_socket,address=9009,server=y,suspend=n
   # network_mode: "mynet"
