@@ -2,12 +2,11 @@
 FROM payara/server-full:5.191
 
 # Hostname für Datenbankserver
-#ENV DBSERVER user_dbserver
 ENV PAYARA_ARGS --debug
 
 # MYSQL-JDBC-Driver 
 COPY mysql-connector-java-8.0.12.jar /opt/payara/appserver/glassfish/domains/production/lib
  
 # ASADMIN Commands to create JDBC-Resource
-COPY ./post-boot-commands.asadmin /opt/payara/config/
+# COPY ./post-boot-commands.asadmin /opt/payara/config/
 

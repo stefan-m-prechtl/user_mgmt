@@ -10,4 +10,7 @@ set resources.jdbc-connection-pool.MySQL8Pool.property.user=root
 set resources.jdbc-connection-pool.MySQL8Pool.property.portNumber=3306
 create-jdbc-resource --enabled=true --poolName=MySQL8Pool --target=domain jdbc/__MySQL8
 create-resource-ref --enabled=true --target=server jdbc/__MySQL8
+# Dynamic Re-Deploy (default: deaktiviert)
+set configs.config.server-config.admin-service.das-config.dynamic-reload-enabled=true
+set configs.config.server-config.admin-service.das-config.autodeploy-enabled=true
 
