@@ -19,7 +19,7 @@ public class PingResource
 	public Response ping()
 	{
 		final LocalDateTime now = LocalDateTime.now();
-		final String result = "Got ping at: " + now.toString();
+		final String result = "Got ping from User-Management at: " + now.toString();
 
 		return Response.ok(result).build();
 	}

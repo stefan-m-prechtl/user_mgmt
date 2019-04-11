@@ -13,7 +13,7 @@ services:
    TZ: Europe/Berlin
    MYSQL_ROOT_PASSWORD: admin 
    MYSQL_DATABASE: userdb
-  network_mode: "mynet"
+  #network_mode: "mynet"
   
  appserver:
   build:
@@ -22,9 +22,8 @@ services:
   container_name: user_appserver
   volumes:
   - ./autodeploy:/opt/payara/appserver/glassfish/domains/production/autodeploy
-  - ./post-boot-commands.asadmin:/opt/payara/config/post-boot-commands.asadmin
   ports:
   - "8080:8080"
   - "4848:4848"
   - "9009:9009"
-  network_mode: "mynet"
+  #network_mode: "mynet"

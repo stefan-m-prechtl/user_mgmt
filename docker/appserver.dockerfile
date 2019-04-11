@@ -8,5 +8,5 @@ ENV PAYARA_ARGS --debug
 COPY mysql-connector-java-8.0.12.jar /opt/payara/appserver/glassfish/domains/production/lib
  
 # ASADMIN Commands to create JDBC-Resource
-# COPY ./post-boot-commands.asadmin /opt/payara/config/
+COPY --chown=payara:payara ./post-boot-commands.asadmin /opt/payara/config/
 
