@@ -3,10 +3,7 @@ package de.esempe.rext.usermgmt.domain;
 import java.io.Serializable;
 import java.util.UUID;
 
-import javax.json.bind.annotation.JsonbCreator;
 import javax.json.bind.annotation.JsonbNillable;
-import javax.json.bind.annotation.JsonbProperty;
-import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,7 +33,7 @@ public class User implements Serializable
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonbTransient
+	// @JsonbTransient
 	private long id;
 
 	@Convert(converter = de.esempe.rext.usermgmt.domain.UuidConverter.class)
@@ -57,8 +54,9 @@ public class User implements Serializable
 	}
 
 	// Für Konvertierung von Json-String zu Java-Objekt
-	@JsonbCreator
-	public User(@JsonbProperty("login") final String login, @JsonbProperty("objid") final UUID objid)
+	// @JsonbCreator
+	// public User(@JsonbProperty("login") final String login, @JsonbProperty("objid") final UUID objid)
+	public User(final String login, final UUID objid)
 	{
 		this.id = -1L;
 		this.objid = objid;
