@@ -63,6 +63,11 @@ public class User implements Serializable
 		this.login = login;
 	}
 
+	public void setIdFrom(User user)
+	{
+		this.id = user.id;
+	}
+
 	// Getter/Setter
 	public String getLogin()
 	{

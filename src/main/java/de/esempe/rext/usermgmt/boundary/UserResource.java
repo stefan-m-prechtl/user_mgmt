@@ -134,6 +134,7 @@ public class UserResource
 		if (findResult.isPresent())
 		{
 			// --> Update
+			user.setIdFrom(findResult.get());
 			this.em.merge(user);
 		} else
 		{
