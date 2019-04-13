@@ -3,8 +3,8 @@ package de.esempe.rext.usermgmt.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import javax.json.Json;
 import javax.json.bind.Jsonb;
-import javax.json.bind.JsonbBuilder;
 import javax.json.bind.JsonbConfig;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import de.esempe.rext.usermgmt.boundary.JsonbContextResolver;
 import de.esempe.rext.usermgmt.boundary.UserJsonAdapter;
 
 @Tag("unit-test")
@@ -37,8 +38,10 @@ public class UserJsonTest
 	@BeforeEach
 	void initJsonbConfig()
 	{
-		this.config = new JsonbConfig().withAdapters(new UserJsonAdapter());
-		this.jsonb = JsonbBuilder.create(this.config);
+		// this.config = new JsonbConfig().withAdapters(new UserJsonAdapter());
+		// this.jsonb = JsonbBuilder.create(this.config);
+		final JsonbContextResolver jcr = new JsonbContextResolver();
+		this.jsonb = jcr.getContext(Json.class);
 	}
 
 	@Test

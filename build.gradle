@@ -44,7 +44,8 @@ dependencies {
     // JSON
 	testCompile group: 'javax.json.bind', name: 'javax.json.bind-api', version: '1.0'
     testCompile group: 'org.eclipse', name: 'yasson', version: '1.0.2'
-    testCompile group: 'org.glassfish', name: 'javax.json', version: '1.1.4'   
+    testCompile group: 'org.glassfish', name: 'javax.json', version: '1.1.4'
+    testCompile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.1.1'
     
 }
 
