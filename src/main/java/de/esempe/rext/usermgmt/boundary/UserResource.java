@@ -73,7 +73,7 @@ public class UserResource
 	}
 
 	@POST
-	@Path("/{id}")
+	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createResource(final User user)
 	{
