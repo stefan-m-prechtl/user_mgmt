@@ -32,12 +32,19 @@ public class UserJsonAdapter implements JsonbAdapter<User, JsonObject>
 	@Override
 	public User adaptFromJson(final JsonObject jsonObj) throws Exception
 	{
-		final UUID objid = UUID.fromString(jsonObj.getString(field_id));
+		User result;
 		final String userlogin = jsonObj.getString(field_login);
 		final String firstname = jsonObj.getString(field_firstname);
 		final String lastname = jsonObj.getString(field_lastname);
 
-		final User result = new User(userlogin, objid);
+		if (jsonObj.containsKey(field_id))
+		{
+			final UUID objid = UUID.fromString(jsonObj.getString(field_id));
+			result = new User(userlogin, objid);
+		} else
+		{
+			result = new User(userlogin);
+		}
 		result.setFirstname(firstname);
 		result.setLastname(lastname);
 

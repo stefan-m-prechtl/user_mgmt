@@ -33,7 +33,6 @@ public class User implements Serializable
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	// @JsonbTransient
 	private long id;
 
 	@Convert(converter = de.esempe.rext.usermgmt.domain.UuidConverter.class)
@@ -45,7 +44,7 @@ public class User implements Serializable
 
 	User()
 	{
-		// wegen JPA
+		// wegen JPA wird Defaultkonstruktor benötigt
 	}
 
 	public User(final String login)
@@ -53,9 +52,6 @@ public class User implements Serializable
 		this(login, UUID.randomUUID());
 	}
 
-	// Für Konvertierung von Json-String zu Java-Objekt
-	// @JsonbCreator
-	// public User(@JsonbProperty("login") final String login, @JsonbProperty("objid") final UUID objid)
 	public User(final String login, final UUID objid)
 	{
 		this.id = -1L;

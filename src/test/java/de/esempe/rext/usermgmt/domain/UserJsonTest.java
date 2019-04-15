@@ -38,8 +38,6 @@ public class UserJsonTest
 	@BeforeEach
 	void initJsonbConfig()
 	{
-		// this.config = new JsonbConfig().withAdapters(new UserJsonAdapter());
-		// this.jsonb = JsonbBuilder.create(this.config);
 		final JsonbContextResolver jcr = new JsonbContextResolver();
 		this.jsonb = jcr.getContext(Json.class);
 	}
