@@ -16,6 +16,9 @@ dependencies {
 	compileOnly  group: 'javax', name: 'javaee-api', version: '8.0'
 	// Commons... (aus Gründen der Build-/Deploy-Performance im lib-Verzeichnis vom Application-Server)
 	compileOnly group: 'com.google.guava', name: 'guava', version: '23.0'
+	// https://mvnrepository.com/artifact/org.eclipse.microprofile/microprofile
+	compileOnly group: 'org.eclipse.microprofile', name: 'microprofile', version: '2.2'
+	
 	
 	// ---- TESTING ---------------------------------------------------------------------------------------------
 	

@@ -13,7 +13,7 @@ services:
    TZ: Europe/Berlin
    MYSQL_ROOT_PASSWORD: admin 
    MYSQL_DATABASE: userdb
-  #network_mode: "mynet"
+  network_mode: "mynet"
   
  appserver:
   build:
@@ -26,4 +26,4 @@ services:
   - "8080:8080"
   - "4848:4848"
   - "9009:9009"
-  #network_mode: "mynet"
+  network_mode: "mynet"
