@@ -15,8 +15,8 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import de.esempe.rext.usermgmt.boundary.JsonbContextResolver;
-import de.esempe.rext.usermgmt.boundary.UserJsonAdapter;
+import de.esempe.rext.usermgmt.boundary.jsonhandling.JsonbContextResolver;
+import de.esempe.rext.usermgmt.boundary.jsonhandling.UserJsonAdapter;
 
 @Tag("unit-test")
 @DisplayName("Tests für Json-Konvertierung User")

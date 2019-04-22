@@ -1,4 +1,4 @@
-package de.esempe.rext.usermgmt.boundary;
+package de.esempe.rext.usermgmt.boundary.jsonhandling;
 
 import java.util.UUID;
 

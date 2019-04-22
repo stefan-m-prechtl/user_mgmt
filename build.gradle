@@ -12,10 +12,13 @@ repositories {
 
 dependencies {
 	
-	// Java EE 8
+	// Java EE 8 und Microprofile
 	compileOnly  group: 'javax', name: 'javaee-api', version: '8.0'
+	compileOnly group: 'org.eclipse.microprofile', name: 'microprofile', version: '2.2'
+	
 	// Commons... (aus Gründen der Build-/Deploy-Performance im lib-Verzeichnis vom Application-Server)
 	compileOnly group: 'com.google.guava', name: 'guava', version: '23.0'
+	
 	
 	// ---- TESTING ---------------------------------------------------------------------------------------------
 	
@@ -23,8 +26,6 @@ dependencies {
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
         
-    // Erweiterung: siehe http://hamcrest.org/JavaHamcrest/
-	// testCompile group: 'org.hamcrest', name: 'hamcrest-junit', version: '2.0.0.0'
 	// Erweiterung: siehe http://joel-costigliola.github.io/assertj/assertj-core-quick-start.html
 	testCompile group: 'org.assertj', name: 'assertj-core', version: '3.11.1'
 	
@@ -57,7 +58,7 @@ test {
 	}
 }
 
-// Depoly
+// Deploy WAR in Autodeploy-Verzeichnis
 task (deployWar, type: Copy, group: 'deploy') {
 	from('./build/libs')
     into('./docker/autodeploy')
@@ -76,9 +77,7 @@ task (downDC, type: Exec, group: 'docker') {
     commandLine 'docker-compose','down', '-t', '0'
 }
 
-
 task (restartDC, type: Exec, group: 'docker') {
     workingDir currentDir
     commandLine 'docker-compose','restart', '-t','0'
 }
-

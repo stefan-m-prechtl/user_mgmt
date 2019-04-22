@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -19,6 +20,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
@@ -28,10 +30,12 @@ import javax.ws.rs.core.UriInfo;
 
 import com.google.common.base.Strings;
 
+import de.esempe.rext.usermgmt.boundary.exceptionhandling.ExceptionHandlingInterceptor;
 import de.esempe.rext.usermgmt.domain.User;
 
 @Stateless(description = "REST-Interface für User")
 @Path("/users")
+@Interceptors({ ExceptionHandlingInterceptor.class })
 public class UserResource
 {
 	@PersistenceContext(name = "userdb")
@@ -74,7 +78,7 @@ public class UserResource
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getResourceById(@PathParam("id") final String resourceId) throws Exception
 	{
-		final UUID objid = UUID.fromString(resourceId);
+		final UUID objid = this.convert2UUID(resourceId);
 		final Optional<User> searchResult = this.findByObjId(objid);
 
 		if (searchResult.isPresent())
@@ -85,12 +89,24 @@ public class UserResource
 		return Response.status(Response.Status.NOT_FOUND).build();
 	}
 
+	UUID convert2UUID(final String resourceId)
+	{
+		try
+		{
+			return UUID.fromString(resourceId);
+		}
+		catch (final IllegalArgumentException e)
+		{
+			throw new WebApplicationException("Ungültiger Wert für UUID", Response.Status.BAD_REQUEST);
+		}
+	}
+
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response deleteResourceById(@PathParam("id") final String resourceId)
 	{
-		final UUID objid = UUID.fromString(resourceId);
+		final UUID objid = this.convert2UUID(resourceId);
 		final Optional<User> searchResult = this.findByObjId(objid);
 
 		if (searchResult.isPresent())
@@ -109,17 +125,24 @@ public class UserResource
 	{
 		final UUID objid = user.getObjid();
 
-		final Optional<User> searchResult = this.findByObjId(objid);
-
-		if (!searchResult.isPresent())
+		// prüfen, ob User bereits vorhanden
+		Optional<User> searchResult = this.findByObjId(objid);
+		if (searchResult.isPresent())
 		{
-			this.save(user);
-			final URI linkURI = UriBuilder.fromUri(this.uriInfo.getAbsolutePath()).path(objid.toString()).build();
-			final Link link = Link.fromUri(linkURI).rel("self").type(MediaType.APPLICATION_JSON).build();
-			return Response.noContent().links(link).build();
+			return Response.status(Response.Status.CONFLICT).entity("User mit Objekt-ID bereits vorhanden").build();
+		}
+		searchResult = this.findByLoginId(user.getLogin());
+		if (searchResult.isPresent())
+		{
+			return Response.status(Response.Status.CONFLICT).entity("User mit Login bereits vorhanden").build();
 		}
 
-		return Response.status(Response.Status.CONFLICT).build();
+		// User ist neu --> persistieren
+		this.save(user);
+		final URI linkURI = UriBuilder.fromUri(this.uriInfo.getAbsolutePath()).path(objid.toString()).build();
+		final Link link = Link.fromUri(linkURI).rel("self").type(MediaType.APPLICATION_JSON).build();
+		return Response.noContent().links(link).build();
+
 	}
 
 	@PUT
@@ -127,7 +150,7 @@ public class UserResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateResource(@PathParam("id") final String resourceId, final User user)
 	{
-		final UUID objid = UUID.fromString(resourceId);
+		final UUID objid = this.convert2UUID(resourceId);
 
 		// REST-Pfad-ID muss mit ID im Objekt übereinstimmen
 		if (false == objid.equals(user.getObjid()))
@@ -168,7 +191,8 @@ public class UserResource
 			// --> Update
 			user.setIdFrom(findResult.get());
 			this.em.merge(user);
-		} else
+		}
+		else
 		{
 			// --> Insert
 			this.em.persist(user);
