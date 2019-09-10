@@ -1,7 +1,7 @@
 version: '3.7'
 
 services:
- dbserver:
+ userdbserver:
   image: mysql:8.0.12
   container_name: user_dbserver
   volumes:
@@ -15,10 +15,11 @@ services:
    MYSQL_DATABASE: userdb
   #network_mode: "mynet"
   
- appserver:
+ userappserver:
   build:
    context: ./
    dockerfile: appserver.dockerfile
+  image: userserver:lastest
   container_name: user_appserver
   volumes:
   - ./autodeploy:/opt/payara/appserver/glassfish/domains/production/autodeploy

@@ -1,5 +1,4 @@
 .gradle
-gradle.properties
 /build/
 /docker/autodeploy/
 /docker/mysql8/
