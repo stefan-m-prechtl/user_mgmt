@@ -1,7 +1,7 @@
 # Basis-Image
 FROM payara/server-full:5.191
 
-# Hostname für Datenbankserver
+# Enable debug mode
 ENV PAYARA_ARGS --debug
 
 # MYSQL-JDBC-Driver 

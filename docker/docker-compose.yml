@@ -3,6 +3,7 @@ version: '3.7'
 services:
  userdbserver:
   image: mysql:8.0.12
+  command: --default-authentication-plugin=mysql_native_password
   container_name: user_dbserver
   volumes:
   - ./mysql8/data1:/var/lib/mysql
@@ -13,7 +14,16 @@ services:
    TZ: Europe/Berlin
    MYSQL_ROOT_PASSWORD: admin 
    MYSQL_DATABASE: userdb
-  #network_mode: "mynet"
+   MYSQL_USER: admin
+   MYSQL_PASSWORD: admin
+  network_mode: "mynet"
+  
+ adminer:
+  image: adminer
+  restart: always
+  ports:
+  - "8383:8080"
+  network_mode: "mynet"
   
  userappserver:
   build:
@@ -29,4 +39,4 @@ services:
   - "9009:9009"
   environment:
    PINGMSG: "Got Ping-Request at: "
-  #network_mode: "mynet"
+  network_mode: "mynet"
