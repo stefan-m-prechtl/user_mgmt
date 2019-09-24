@@ -11,3 +11,6 @@ CREATE TABLE IF NOT EXISTS t_user (
   UNIQUE KEY `objid_UNIQUE` (`objid`),
   UNIQUE KEY `login_UNIQUE` (`login`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT IGNORE INTO userdb.t_user (objid,login,firstname,lastname) VALUES (UUID_TO_BIN(UUID()),'SMP','Stefan M.','Prechtl');
+

@@ -3,10 +3,11 @@ version: '3.7'
 services:
  userdbserver:
   image: mysql:8.0.12
+  #image: mysql:8.0.17
   command: --default-authentication-plugin=mysql_native_password
   container_name: user_dbserver
   volumes:
-  - ./mysql8/data1:/var/lib/mysql
+  - ./mysql8/data:/var/lib/mysql
   - ./sqlinit:/docker-entrypoint-initdb.d/
   ports:
   - "3306:3306"
@@ -20,6 +21,7 @@ services:
   
  adminer:
   image: adminer
+  container_name: adminermysql
   restart: always
   ports:
   - "8383:8080"
