@@ -59,7 +59,7 @@ test {
 }
 
 // Deploy WAR in Autodeploy-Verzeichnis
-task (deployWar, type: Copy, group: 'deploy') {
+task (deployWar, type: Sync, group: 'deploy') {
 	from('./build/libs')
     into('./docker/autodeploy')
 }
