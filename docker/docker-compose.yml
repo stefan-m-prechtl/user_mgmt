@@ -42,6 +42,7 @@ services:
   - "9009:9009"
   environment:
    PINGMSG: "Got Ping-Request at: "
+   PAYARA_ARGS: "--debug"
   network_mode: "mynet"
   
 # networks:
