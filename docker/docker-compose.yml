@@ -24,6 +24,8 @@ services:
   image: adminer
   container_name: adminermysql
   restart: always
+  depends_on:
+     - userdbserver
   ports:
   - "8383:8080"
   network_mode: "mynet"
